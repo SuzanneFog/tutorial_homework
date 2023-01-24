@@ -1,0 +1,99 @@
+def tictactoe_table (myrows):
+    #there's no need for the code to have 3 prints, but i like to be able to see the code
+    print(f" {myrows[0]} | {myrows[1]} | {myrows[2]} \n--- --- ---")
+    print(f" {myrows[3]} | {myrows[4]} | {myrows[5]} \n--- --- ---")
+    print(f" {myrows[6]} | {myrows[7]} | {myrows[8]} ")
+
+################################################################
+
+myrows = ['¹','²','³','⁴','⁵','⁶','⁷','⁸','⁹']
+def check_wins ():
+    if myrows[0] == myrows[1] == myrows[2]:
+        return myrows[0]
+    elif myrows[3] == myrows[4] == myrows[5]:
+        return myrows[3]
+    elif myrows[6] == myrows[7] == myrows[8]:
+        return myrows[6]
+    elif myrows[0] == myrows[3] == myrows[6]:
+        return myrows[0]
+    elif myrows[1] == myrows[4] == myrows[7]:
+        return myrows[1]
+    elif myrows[2] == myrows[5] == myrows[8]:
+        return myrows[2]
+    elif myrows[0] == myrows[4] == myrows[8]:
+        return myrows[0]
+    elif myrows[2] == myrows[4] == myrows[6]:   
+        return myrows[2]
+    else:
+        return 'none'
+
+################################################################
+
+def rules ():
+    print('Hi, these are the rules of tic tac toe:')
+    print('    tic tac toe is a paper & pencil game two players who take turns marking the spaces in a three-by-three grid with X or O.') 
+    print('    The player who succeeds in placing three of their marks in a horizontal, vertical, or diagonal rows is the winner.')
+
+################################################################
+
+def wanna_play ():
+    asking = True
+    while asking:
+        answer = input('Do you wanna play? (Y or N): ')
+        if answer.upper() in ('Y'):
+            asking = False
+            print("let's go!")
+            return gameon()
+        elif answer.upper() in ('N'):
+            print('okay, till next time')
+            asking = False
+        else:
+            print("I could'n understand you, please answer with Y or N")
+            pass
+
+################################################################
+
+def valid_play ():
+    while True:
+        try:
+            val = int(input('choose a cell to mark (1-9): '))
+        except ValueError:
+            print("that's not a number!")
+        else:
+            if (1 <= val <= 9):
+                break
+            else:
+                print('hey, I can only accept numbers between 1 and 9')
+    return val
+
+################################################################
+
+def gameon ():
+    game_on = True
+    
+    turn = 'X'
+    last_play = ['X','O']
+    
+    while game_on == True:
+        print(f"Player {turn}, it's your turn!")
+            
+        tictactoe_table(myrows)
+            
+        myrows[valid_play()-1] = turn
+        if turn == check_wins():
+            print(f"Congratulations! {turn} won!")
+            break
+        else:
+            turn = last_play[-1]
+            last_play = last_play[::-1]
+            pass
+
+################################################################
+
+#        ['0','1','2','3','4','5','6','7','8'] 
+myrows = [' ',' ',' ',' ',' ',' ',' ',' ',' ']
+
+rules()
+wanna_play()
+
+################################################################
