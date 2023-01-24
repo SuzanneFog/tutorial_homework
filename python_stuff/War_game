@@ -1,0 +1,132 @@
+'''
+                       WAR GAME
+The goal is to be the first player to win all 52 cards
+
+The Deal
+
+The deck is divided evenly, with each player receiving 26 cards, dealt one at a time, face down. 
+Anyone may deal first. 
+Each player places their stack of cards face down, in front of them.
+The Play
+
+Each player turns up a card at the same time and the player with the higher card takes both cards and puts them, 
+face down, on the bottom of his stack.
+If the cards are the same rank, it is War. Each player turns up one card face down and one card face up. 
+The player with the higher cards takes both piles (six cards). If the turned-up cards are again the same rank, 
+each player places another card face down and turns another card face up. 
+The player with the higher card takes all 10 cards, and so on.
+
+How to Keep Score
+
+The game ends when one player has won all the cards.
+'''
+import random
+
+suits = ("Clubs", "Diamonds", "Hearts", "Spades")
+ranks = ('Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten', 'Jack', 'Queen', 'King', 'Ace')
+values = {'Two':2, 'Three':3, 'Four':4, 'Five':5, 'Six':6, 'Seven':7, 'Eight':8, 
+            'Nine':9, 'Ten':10, 'Jack':11, 'Queen':12, 'King':13, 'Ace':14}
+
+class Card:
+    
+    def __init__(self,suit,rank):
+        self.suit = suit
+        self.rank = rank
+        self.value = values[rank]
+        
+    def __str__(self):
+        return self.rank + " of " + self.suit
+
+class Deck:
+    
+    def __init__(self):
+        
+        self.all_cards = []
+        
+        for suit in suits:
+            for rank in ranks:
+                created_card = Card(suit,rank)
+                
+                self.all_cards.append(created_card)
+    
+    def shuffle(self):
+        random.shuffle(self.all_cards)
+    
+    def deal_one(self):
+        return self.all_cards.pop()
+
+class Player:
+    def __init__(self,name):
+        self.name = name
+        self.owned_cards = [] #all cards
+            
+    def Play_Cards(self):
+        return self.owned_cards.pop(0)
+        
+    def Add_Cards(self,new_cards):
+        if type(new_cards) == type([]):
+            self.owned_cards.extend(new_cards)
+    else:
+        self.owned_cards.append(new_cards)
+        
+    def __str__(self):
+        return f"Player {self.name} has {len(self.owned_cards)} cards"
+
+Player_1 = Player('One')
+Player_2 = Player('Two')
+
+Game_Deck = Deck()
+
+Game_Deck.shuffle()
+
+for card in range(26):
+    Player_1.Add_Cards(Game_Deck.deal_one())
+    Player_2.Add_Cards(Game_Deck.deal_one())
+
+Round = 0
+while game_on:
+    Round += 1
+    print(f"Round {Round}")
+    
+    if len(Player_1.owned_cards) == 0:
+        print(f"Player {Player_1.name} out of cards! Game Over! \nPlayer {Player_2.name} Wins!")
+        game_on = False
+        break
+    if len(Player_2.owned_cards) == 0:
+        print(f"Player {Player_2.name} out of cards! Game Over! \nPlayer {Player_1.name} Wins!")
+        game_on = False
+        break
+        
+    Player_1_card = []
+    Player_1_card.append(Player_1.Play_Cards())
+    
+    Player_2_card = []
+    Player_1_card.append(Player_2.Play_Cards())
+    
+    at_War = True
+    
+    while at_war:
+        if Player_1_card[-1].value > Player_2_card[-1].value:
+            Player_1.Add_Cards(Player_1_card)
+            Player_1.Add_Cards(Player_2_card)
+        elif Player_2_card[-1].value > Player_1_card[-1].value:
+            Player_2.Add_Cards(Player_2_card)
+            Player_2.Add_Cards(Player_1_card)
+        else:
+            print('WAR!!!')
+            if len(player_one.all_cards) < 5:
+                print("Player One unable to play war! Game Over at War")
+                print("Player Two Wins! Player One Loses!")
+                game_on = False
+                break
+
+            elif len(player_two.all_cards) < 5:
+                print("Player Two unable to play war! Game Over at War")
+                print("Player One Wins! Player One Loses!")
+                game_on = False
+                break
+                
+            else:
+                for num in range(5):
+                    player_one_cards.append(player_one.remove_one())
+                    player_two_cards.append(player_two.remove_one())
